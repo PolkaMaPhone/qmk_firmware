@@ -25,7 +25,7 @@
 
 // NOTE: There is a bug in AVR deep sleep, which
 // causes the MCU to stop responding in some cases.
-// Disabling the watchdog prevents the MCU from entering 
+// Disabling the watchdog prevents the MCU from entering
 // power down, while still turning off LEDs, audio, etc.
 // See qmk_firmware/issues/20087 for background
 #undef WDT_vect
@@ -61,18 +61,18 @@
 #define RGB_DI_PIN B2
 #define RGBLED_NUM 10
 #define RGBLED_SPLIT { 5, 5 }
-#define RGBLIGHT_LED_MAP { 8, 9, 0, 1, 2, 6, 7, 3, 4, 5 }  
+#define RGBLIGHT_LED_MAP { 8, 9, 0, 1, 2, 6, 7, 3, 4, 5 }
 #define RGBLIGHT_SLEEP
 #define RGBLIGHT_EFFECT_BREATHING
 #define RGBLIGHT_EFFECT_RAINBOW_MOOD
 #define RGBLIGHT_EFFECT_RAINBOW_SWIRL
-#define RGBLIGHT_EFFECT_SNAKE
-#define RGBLIGHT_EFFECT_KNIGHT
-#define RGBLIGHT_EFFECT_CHRISTMAS
+#undef RGBLIGHT_EFFECT_SNAKE
+#undef RGBLIGHT_EFFECT_KNIGHT
+#undef RGBLIGHT_EFFECT_CHRISTMAS
 #define RGBLIGHT_EFFECT_STATIC_GRADIENT
-#define RGBLIGHT_EFFECT_RGB_TEST
-#define RGBLIGHT_EFFECT_ALTERNATING
-#define RGBLIGHT_EFFECT_TWINKLE
+#undef RGBLIGHT_EFFECT_RGB_TEST
+#undef RGBLIGHT_EFFECT_ALTERNATING
+#undef RGBLIGHT_EFFECT_TWINKLE
 
 /* Optional encoder pins */
 #define ENCODERS_PAD_A { B3 }
