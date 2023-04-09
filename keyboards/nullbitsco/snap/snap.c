@@ -16,9 +16,9 @@
 #include QMK_KEYBOARD_H
 
 // Macro variables
-bool is_alt_tab_active = false;
-uint16_t alt_tab_timer = 0;
-bool muted = false;
+bool     is_alt_tab_active = false;
+uint16_t alt_tab_timer     = 0;
+bool     muted             = false;
 
 void matrix_init_kb(void) {
     set_bitc_LED(LED_OFF);
@@ -27,10 +27,11 @@ void matrix_init_kb(void) {
 }
 
 void keyboard_post_init_kb(void) {
-    #ifdef CONSOLE_ENABLE
+    rgblight_disable_noeeprom(); // Disable RGB underglow by default
+#ifdef CONSOLE_ENABLE
     debug_enable = true;
     debug_matrix = true;
-    #endif
+#endif
     keyboard_post_init_user();
 }
 
@@ -52,10 +53,10 @@ void led_update_ports(led_t led_state) {
 }
 
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
-    // If console is enabled, it will print the matrix position and status of each key pressed
-    #ifdef CONSOLE_ENABLE
+// If console is enabled, it will print the matrix position and status of each key pressed
+#ifdef CONSOLE_ENABLE
     dprintf("kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time);
-    #endif
+#endif
 
     process_record_remote_kb(keycode, record);
     if (!process_record_user(keycode, record)) return false;
@@ -64,20 +65,20 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
         case QK_BOOT:
             if (record->event.pressed) {
                 set_bitc_LED(LED_DIM);
-                #ifdef RGBLIGHT_ENABLE
+#ifdef RGBLIGHT_ENABLE
                 rgblight_disable_noeeprom();
-                #endif
-                #ifdef OLED_ENABLE
+#endif
+#ifdef OLED_ENABLE
                 oled_off();
-                #endif
-                bootloader_jump();  // jump to bootloader
+#endif
+                bootloader_jump(); // jump to bootloader
             }
             return false;
 
         case DISC_MUTE:
             if (record->event.pressed) {
                 tap_code(KC_F23);
-                #ifdef RGBLIGHT_ENABLE
+#ifdef RGBLIGHT_ENABLE
                 if (!rgblight_is_enabled()) break;
 
                 if (muted) {
@@ -87,7 +88,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                     uint8_t val = rgblight_get_val();
                     rgblight_sethsv_range(255, 255, val, 1, 5);
                 }
-                #endif
+#endif
                 muted = !muted;
             }
             break;
@@ -114,7 +115,9 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
 
 #ifdef ENCODER_ENABLE
 bool encoder_update_kb(uint8_t index, bool clockwise) {
-    if (!encoder_update_user(index, clockwise)) { return false; }
+    if (!encoder_update_user(index, clockwise)) {
+        return false;
+    }
     if (index == 0) {
         if (clockwise) {
             tap_code_delay(KC_VOLU, 10);
